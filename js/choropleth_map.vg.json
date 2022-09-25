@@ -4,7 +4,7 @@
   "width": 800,
   "height": 400,
   "data": {
-    "url": "data/us-10m.json",
+    "url": "https://raw.githubusercontent.com/HGYYaa/3179PRO2/main/js/us-10m.json",
     "format": {"type": "topojson", "feature": "counties"}
   },
   "layer": [
