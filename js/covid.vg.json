@@ -11,7 +11,7 @@
     {
       "transform": [
         {
-          "calculate": "'Data is not available in ' + datum.properties.NAME",
+          "calculate": "'Data is not available in ' + datum.state",
           "as": "note"
         }
       ],
@@ -19,19 +19,12 @@
       "encoding": {"tooltip": {"field": "note"}}
     },
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-        "format": {"type": "topojson", "feature": "oceans"}
-      },
-      "mark": {"type": "geoshape", "fill": "skyblue"}
-    },
-    {
       "transform": [
         {
           "lookup": "id",
           "from": {
             "data": {
-              "url": "https://raw.githubusercontent.com/HGYYaa/3179PRO2/main/us_county_sociohealth_data.csv"
+              "url": "https://raw.githubusercontent.com/HGYYaa/3179PRO2/main/data/us_county_sociohealth_data.csv"
             },
             "key": "fips",
             "fields": ["num_deaths"]
@@ -47,12 +40,8 @@
           "scale": {"type": "log"}
         },
         "tooltip": [
-          {"field": "state", "type": "nominal", "title": "State"},
-          {
-            "field": "num_deaths",
-            "type": "quantitative",
-            "title": "Death Cases"
-          }
+          {"field": "id", "type": "nominal", "title": "State ID"},
+          {"field": "num_deaths", "type": "quantitative", "title": "Death Cases"}
         ]
       }
     }
