@@ -1,0 +1,127 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700,
+    "height": 400,
+    "title":"Total Number of Death over Total Population in 11 States",
+    "description": "A scatterplot showing body mass and flipper lengths of penguins.",
+    "data": {
+      "url": "https://raw.githubusercontent.com/HGYYaa/3179PRO2/main/data/us_county_sociohealth_data.csv"
+    },"params": [
+      {
+        "name": "State_selection",
+        "bind": {
+          "input": "select",
+          "options": [
+          null,
+          "Arizona",
+          "California",
+          "Florida",
+          "Illinois",
+          "Michigan",
+          "Nevada",
+          "New York",
+          "Ohio",
+          "Pennslylvania",
+          "Texas",
+          "Washington"
+          ],
+          "labels":[
+          "Show All",
+          "Arizona",
+          "California",
+          "Florida",
+          "Illinois",
+          "Michigan",
+          "Nevada",
+          "New York",
+          "Ohio",
+          "Pennslylvania",
+          "Texas",
+          "Washington"],
+          "name": "State Selection: "
+        }
+      },
+      {
+      "name": "Death_Above",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 80000,
+        "step": 10000,
+        "name": "Death cases: "
+        }
+      }
+    ],
+    "transform": [
+      {"filter": "datum.total_population > 1000000"},
+      {"filter": "datum.num_deaths > 15000"},
+      {"filter": "State_selection == null || datum.state == State_selection"},
+      {"filter": "datum.num_deaths > Death_Above"}
+      ],
+    "encoding": {
+      "x": {
+        "field": "total_population",
+        "type": "quantitative",
+        "scale": {"zero": false, "type": "log", "domain":[ 1000000,10000000]},
+        "title":"Total Population"
+      },
+      "y": {
+        "field": "num_deaths",
+        "type": "quantitative",
+        "scale": {"zero": false, "type": "log"},
+        "title":"Number of deaths"
+      }
+    },
+    "layer": [
+      {
+        "mark": "point",
+        "encoding": {
+          "size": {
+        "field": "total_population",
+        "type": "quantitative",
+        "scale": {
+        "type": "threshold",
+        "domain": [1000000, 2000000, 3000000, 4000000, 5000000],
+        "range": [10, 50, 150, 200, 300, 400]
+        },
+        "legend": {"format": ".1s"}
+        },
+        "color": {"field": "state", "type": "nominal"},
+        "shape": {"field": "state", "type": "nominal"},
+        "opacity": {"value": 0.6},  
+        "tooltip": [
+            {"field": "state", "type": "nominal", "title": "State"},
+            {"field": "num_deaths", "type": "quantitative", "format": ",", "title": "Death Cases"},
+            {"field": "total_population", "type": "quantitative", "format": ",", "title":"Population"}
+          ]
+        }
+      },
+      {
+          "mark": {
+          "type": "text",
+          "align": "right",
+          "baseline": "middle",
+          "dx": -12,
+          "fontSize": 11.5,
+          "fontStyle": "italic"
+        },
+        "encoding": {
+          "text": {"field": "state", "type": "nominal"},
+          "color": {"value": "black"},
+          "opacity": {
+            "condition": {
+              "test": "datum['state'] == 'California' || datum['state'] == 'Florida' || datum['state'] == 'Michigan' || datum['state'] == 'New York' || datum['state'] == 'Texas' ||  datum['state'] == 'Washington'",
+              "value": 1
+            },
+            "value": 0
+          },
+          "tooltip": [
+            {"field": "state", "type": "nominal", "title": "State"},
+            {"field": "num_deaths", "type": "quantitative", "format": ",", "title": "Death Cases"},
+            {"field": "total_population", "type": "quantitative", "format": ",", "title":"Population"}
+          ]
+        }
+      }
+    ]
+  }
